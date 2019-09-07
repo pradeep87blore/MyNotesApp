@@ -1,7 +1,9 @@
 ﻿using Common;
+using Logic;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +23,7 @@ namespace MainPage
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    {
+    {   
         public MainWindow()
         {
             InitializeComponent();
@@ -47,11 +49,34 @@ namespace MainPage
             NotesContent notes = new NotesContent();            
             notes._notesText = textBox_notesText.Text;
             notes._userId = textBox_userId.Text;
+            
+            if(ValidFileSelected())
+            {
+                notes._filePath = textBox_selectedFilePath.Text;
+            }
+
+            if(NotesHandler.AddNotes(notes).Result)
+            {
+                Logger.AddLog("Successfully added new notes");
+            }
+            else
+            {
+                MessageBox.Show("Failed to add logs, please retry after some time");
+            }
+        }
+
+        private bool ValidFileSelected()
+        {
+            string filePath = textBox_selectedFilePath.Text;
+
+            return !(String.IsNullOrEmpty(filePath) || (!File.Exists(filePath))); // return false if file path is empty or if the file doesnt exist
+                
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) // Open file dialog to select a file
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            textBox_selectedFilePath.Text = String.Empty;
             if (openFileDialog.ShowDialog() == true)
             {
                 if (IsFileSizeOK(openFileDialog.FileName))
@@ -60,14 +85,19 @@ namespace MainPage
                 }
                 else
                 {
-
+                    MessageBox.Show("File size is too much, please select a file of size less than " + Constants.MAX_FILE_SIZE_KB.ToString() + " KB");
+                    return;
                 }
             }
         }
 
         private bool IsFileSizeOK(string fileName)
         {
-            throw new NotImplementedException();
+            FileInfo fileInfo = new FileInfo(fileName);
+
+            Decimal FileSize = Decimal.Divide(fileInfo.Length, 1024);
+
+            return (FileSize <= Constants.MAX_FILE_SIZE_KB);
         }
     }
 }

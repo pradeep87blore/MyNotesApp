@@ -13,7 +13,7 @@ namespace AWSHelpers
         private static DynamoDBHelper instance;
 
         private AmazonDynamoDBClient client = new AmazonDynamoDBClient();
-        private string tableName = "MyNotesApp";
+        private const string tableName = "MyNotesApp";
 
         private Table notesTable = null;
 
@@ -21,7 +21,7 @@ namespace AWSHelpers
         {
             try
             {
-                CheckForAndCreateTable(); // Not adding an await since it can continue in the background
+                CheckForAndCreateTable(); // Not adding an await since it can continue in the background                
             }
             catch(Exception ex)
             {
@@ -121,22 +121,35 @@ namespace AWSHelpers
                 instance = new DynamoDBHelper();
             }
 
+            // If the table is not loaded, load it up
+            if(instance.notesTable == null)
+            {
+                instance.notesTable = Table.LoadTable(instance.client, tableName);
+            }
+
             return instance;
         }
 
-        public async Task<bool> InsertNotes(NotesStructure inputNotes)
+        public bool InsertNotes(NotesStructure inputNotes)
         {
-            var notes = new Document();
-
-            foreach (var field in inputNotes.Notes)
+            try
             {
-                notes[field.Key] = field.Value; // Populate the notes Document from the input dictionary
+                var notes = new Document();
+
+                foreach (var field in inputNotes.Notes)
+                {
+                    notes[field.Key] = field.Value; // Populate the notes Document from the input dictionary
+                }
+
+                var rsp = notesTable.PutItemAsync(notes);
+
+                return true;
             }
-
-            var rsp = await notesTable.PutItemAsync(notes);
-
-
-            return true;
+            catch (Exception  ex)
+            {
+                Logger.AddLog(ex.ToString());
+            }
+            return false;
         }
 
     }

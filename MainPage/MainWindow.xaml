@@ -18,7 +18,7 @@
         </Border>
         <Label x:Name="label" Content="Add new notes" HorizontalAlignment="Left" Height="27" Margin="12,50,0,0" VerticalAlignment="Top" Width="115" RenderTransformOrigin="0.5,0.5"/>
         <Label x:Name="label1" Content="File" HorizontalAlignment="Left" Margin="15,382,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox_selectedFilePath" HorizontalAlignment="Left" Height="25" Margin="44,383,0,0" Text="Select a file (less than 200KB)" TextWrapping="Wrap" VerticalAlignment="Top" Width="160"/>
+        <TextBox x:Name="textBox_selectedFilePath" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="44,383,0,0" Text="Select a file (less than 200KB)" TextWrapping="Wrap" VerticalAlignment="Top" Width="160"/>
         <TextBox x:Name="textBox_notesText" HorizontalAlignment="Left" Height="284" Margin="23,93,0,0" Text="Type your notes here" TextWrapping="Wrap" VerticalAlignment="Top" Width="214"/>
         <Button x:Name="button_addNotes" Content="Save Notes" HorizontalAlignment="Left" Height="24" Margin="44,420,0,0" VerticalAlignment="Top" Width="200" Click="Button_addNotes_Click"/>
         <TextBox x:Name="textBox_userId" HorizontalAlignment="Left" Height="35" Margin="23,10,0,0" Text="pradeep@gmail.com" TextWrapping="Wrap" VerticalAlignment="Top" Width="214"/>

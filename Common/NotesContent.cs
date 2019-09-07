@@ -8,7 +8,7 @@ namespace Common
     {
         public string _notesText = "";
 
-        public string _imagePath = "";
+        public string _filePath = "";
 
         public string _userId = "";
     }
