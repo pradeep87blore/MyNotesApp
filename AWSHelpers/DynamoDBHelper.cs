@@ -4,6 +4,7 @@ using Amazon.DynamoDBv2.Model;
 using Common;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AWSHelpers
@@ -23,7 +24,7 @@ namespace AWSHelpers
             {
                 CheckForAndCreateTable(); // Not adding an await since it can continue in the background                
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.AddLog(ex.ToString());
             }
@@ -122,7 +123,7 @@ namespace AWSHelpers
             }
 
             // If the table is not loaded, load it up
-            if(instance.notesTable == null)
+            if (instance.notesTable == null)
             {
                 instance.notesTable = Table.LoadTable(instance.client, tableName);
             }
@@ -145,11 +146,62 @@ namespace AWSHelpers
 
                 return true;
             }
-            catch (Exception  ex)
+            catch (Exception ex)
             {
                 Logger.AddLog(ex.ToString());
             }
             return false;
+        }
+
+        public List<NotesStructure> FetchNotes(string userId)
+        {
+            List<NotesStructure> notes = new List<NotesStructure>();
+
+            QueryFilter filter = new QueryFilter(Constants.USER_ID, QueryOperator.Equal, userId);
+            QueryOperationConfig config = new QueryOperationConfig()
+            {
+                Filter = filter,
+                ConsistentRead = true
+            };
+
+            Search search = notesTable.Query(config);
+
+            List<Document> documentSet = new List<Document>();
+            do
+            {
+                documentSet = search.GetNextSetAsync().Result;
+                Console.WriteLine("\nFindRepliesInLast15DaysWithConfig: printing ............");
+                foreach (var document in documentSet)
+                {
+                    NotesStructure notesStructure = new NotesStructure();
+                    foreach (var field in document)
+                    {
+                        notesStructure.Notes[field.Key] = field.Value;
+                    }
+
+                    notes.Add(notesStructure);
+                }
+
+            } while (!search.IsDone);
+
+            return notes;
+        }
+
+
+        private static void PrintDocument(Document updatedDocument)
+        {
+            foreach (var attribute in updatedDocument.GetAttributeNames())
+            {
+                string stringValue = null;
+                var value = updatedDocument[attribute];
+                if (value is Primitive)
+                    stringValue = value.AsPrimitive().Value.ToString();
+                else if (value is PrimitiveList)
+                    stringValue = string.Join(",", (from primitive
+                                    in value.AsPrimitiveList().Entries
+                                                    select primitive.Value).ToArray());
+                Logger.AddLog(string.Format("{0} - {1}", attribute, stringValue));
+            }
         }
 
     }

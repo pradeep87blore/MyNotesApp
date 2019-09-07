@@ -23,7 +23,7 @@ namespace MainPage
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    {   
+    {
         public MainWindow()
         {
             InitializeComponent();
@@ -37,25 +37,37 @@ namespace MainPage
         private void Window_Initialized(object sender, EventArgs e)
         {
             Logic.Initializer.InitializeHelpers();
+
+            var prevNotes = NotesHandler.FetchNotes(textBox_userId.Text);
+
+            UpdatePreviousNotes(prevNotes);
+        }
+
+        private void UpdatePreviousNotes(List<NotesContent> prevNotes)
+        {
+            foreach (var notes in prevNotes)
+            {
+                listBox_previousNotes.Items.Add(notes.ToString());
+            }
         }
 
         private void Button_addNotes_Click(object sender, RoutedEventArgs e)
         {
-            if(String.IsNullOrEmpty(textBox_notesText.Text))
+            if (String.IsNullOrEmpty(textBox_notesText.Text))
             {
                 MessageBox.Show("Please enter some text to save to notes");
                 return;
             }
-            NotesContent notes = new NotesContent();            
+            NotesContent notes = new NotesContent();
             notes._notesText = textBox_notesText.Text;
             notes._userId = textBox_userId.Text;
-            
-            if(ValidFileSelected())
+
+            if (ValidFileSelected())
             {
                 notes._filePath = textBox_selectedFilePath.Text;
             }
 
-            if(NotesHandler.AddNotes(notes).Result)
+            if (NotesHandler.AddNotes(notes).Result)
             {
                 Logger.AddLog("Successfully added new notes");
             }
@@ -70,7 +82,7 @@ namespace MainPage
             string filePath = textBox_selectedFilePath.Text;
 
             return !(String.IsNullOrEmpty(filePath) || (!File.Exists(filePath))); // return false if file path is empty or if the file doesnt exist
-                
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) // Open file dialog to select a file

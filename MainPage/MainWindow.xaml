@@ -12,7 +12,7 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Button Content="Exit" Grid.Row="1" FontSize="20" Click="ButtonExit_Click"/>
-        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="509" Margin="260,0,0,0" VerticalAlignment="Center" Width="540"/>
+        <ListBox x:Name="listBox_previousNotes" HorizontalAlignment="Left" Height="408.55" Margin="260,0,0,0" VerticalAlignment="Center" Width="530"/>
         <Border BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Left" Height="376" Margin="10,77,0,0" VerticalAlignment="Top" Width="245">
             <Button x:Name="button" Content=". . ." HorizontalAlignment="Left" Height="30" Margin="198,303,0,0" VerticalAlignment="Top" Width="36" Click="Button_Click"/>
         </Border>
@@ -22,5 +22,10 @@
         <TextBox x:Name="textBox_notesText" HorizontalAlignment="Left" Height="284" Margin="23,93,0,0" Text="Type your notes here" TextWrapping="Wrap" VerticalAlignment="Top" Width="214"/>
         <Button x:Name="button_addNotes" Content="Save Notes" HorizontalAlignment="Left" Height="24" Margin="44,420,0,0" VerticalAlignment="Top" Width="200" Click="Button_addNotes_Click"/>
         <TextBox x:Name="textBox_userId" HorizontalAlignment="Left" Height="35" Margin="23,10,0,0" Text="pradeep@gmail.com" TextWrapping="Wrap" VerticalAlignment="Top" Width="214"/>
+        <ComboBox x:Name="comboBox_sortOrder" HorizontalAlignment="Left" Height="35" Margin="636.376,5.096,0,0" VerticalAlignment="Top" Width="142.234">
+            <ComboBoxItem Content="Newest First"/>
+            <ComboBoxItem Content="Oldest First"/>
+        </ComboBox>
+        <Label x:Name="label2" Content="My Notes" HorizontalAlignment="Left" Height="35" Margin="260,10,0,0" VerticalAlignment="Top" Width="166.703"/>
     </Grid>
 </Window>

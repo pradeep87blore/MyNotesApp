@@ -1,6 +1,7 @@
 ﻿using AWSHelpers;
 using Common;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Logic
@@ -40,6 +41,28 @@ namespace Logic
         {
             // TODO: Add logic here
             return true;
+        }
+
+        public static List<NotesContent> FetchNotes(string userId)
+        {
+            List<NotesContent> fetchedNotes = new List<NotesContent>();
+            var rsp = DynamoDBHelper.Instance().FetchNotes(userId);
+
+            foreach(var notes in rsp)
+            {
+                NotesContent content = new NotesContent();
+                content._userId = notes.Notes[Constants.USER_ID];
+                content._timeStamp = notes.Notes[Constants.TIMESTAMP];
+                content._notesText = notes.Notes[Constants.NOTES_TEXT];
+
+                if (notes.Notes.ContainsKey(Constants.FILE))
+                {
+                    content._filePath = notes.Notes[Constants.FILE];
+                }
+
+                fetchedNotes.Add(content);
+            }
+            return fetchedNotes;
         }
     }
 }
