@@ -12,7 +12,18 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Button Content="Exit" Grid.Row="1" FontSize="20" Click="ButtonExit_Click"/>
-        <ListBox x:Name="listBox_previousNotes" HorizontalAlignment="Left" Height="408.55" Margin="260,0,0,0" VerticalAlignment="Center" Width="530"/>
+        <ListBox x:Name="listBox_previousNotes" ItemsSource="{Binding Source=ListForDataBinding}" HorizontalAlignment="Left" Height="408.55" Margin="260,0,0,0" VerticalAlignment="Center" Width="530">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock Text="{Binding Path=NotesTitle}" FontWeight="Bold" FontFamily="Segoe UI" />
+                        <TextBlock Text="{Binding Path=NotesText}" FontWeight="Bold" />
+                        <TextBlock Text="{Binding Path=FilePath}" FontWeight="Bold" />
+                        <TextBlock Text="{Binding Path=TimeStamp}" TextDecorations="Underline" Foreground="Blue" Cursor="Hand" />
+                    </WrapPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <Border BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Left" Height="376" Margin="10,77,0,0" VerticalAlignment="Top" Width="245">
             <Button x:Name="button" Content=". . ." HorizontalAlignment="Left" Height="30" Margin="198,303,0,0" VerticalAlignment="Top" Width="36" Click="Button_Click"/>
         </Border>

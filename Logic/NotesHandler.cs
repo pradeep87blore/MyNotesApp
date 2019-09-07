@@ -11,13 +11,13 @@ namespace Logic
         public async static Task<bool> AddNotes(NotesContent notes)
         {
             NotesStructure notesStructure = new NotesStructure();
-            notesStructure.Notes[Constants.USER_ID] = notes._userId;
+            notesStructure.Notes[Constants.USER_ID] = notes.UserId;
             notesStructure.Notes[Constants.TIMESTAMP] = DateTime.Now.ToString();
-            notesStructure.Notes[Constants.NOTES_TEXT] = notes._notesText;
-            if (!string.IsNullOrEmpty(notes._filePath))
+            notesStructure.Notes[Constants.NOTES_TEXT] = notes.NotesText;
+            if (!string.IsNullOrEmpty(notes.FilePath))
             {
                 string keyName = "";
-                if (!UploadFileToS3(notes._userId, notes._filePath, out keyName))
+                if (!UploadFileToS3(notes.UserId, notes.FilePath, out keyName))
                 {
                     Logger.AddLog("Failed to upload file to S3");
                     return false;
@@ -53,13 +53,13 @@ namespace Logic
             foreach(var notes in rsp)
             {
                 NotesContent content = new NotesContent();
-                content._userId = notes.Notes[Constants.USER_ID];
-                content._timeStamp = notes.Notes[Constants.TIMESTAMP];
-                content._notesText = notes.Notes[Constants.NOTES_TEXT];
+                content.UserId = notes.Notes[Constants.USER_ID];
+                content.TimeStamp = notes.Notes[Constants.TIMESTAMP];
+                content.NotesText = notes.Notes[Constants.NOTES_TEXT];
 
                 if (notes.Notes.ContainsKey(Constants.FILE))
                 {
-                    content._filePath = notes.Notes[Constants.FILE];
+                    content.FilePath = notes.Notes[Constants.FILE];
                 }
 
                 fetchedNotes.Add(content);

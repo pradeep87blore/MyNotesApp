@@ -3,6 +3,7 @@ using Logic;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,8 +25,14 @@ namespace MainPage
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private ObservableCollection<NotesContent> listForDataBinding = new ObservableCollection<NotesContent>();
+
+        public ObservableCollection<NotesContent> ListForDataBinding { get => listForDataBinding; set => listForDataBinding = value; }
+
         public MainWindow()
         {
+            //this.DataContext = this;
             InitializeComponent();
         }
 
@@ -36,6 +43,8 @@ namespace MainPage
 
         private void Window_Initialized(object sender, EventArgs e)
         {
+            
+
             Logic.Initializer.InitializeHelpers(textBox_userId.Text);
 
             var prevNotes = NotesHandler.FetchNotes(textBox_userId.Text);
@@ -45,10 +54,13 @@ namespace MainPage
 
         private void UpdatePreviousNotes(List<NotesContent> prevNotes)
         {
-            foreach (var notes in prevNotes)
+            listBox_previousNotes.ItemsSource = ListForDataBinding;
+
+            foreach (var item in prevNotes)
             {
-                listBox_previousNotes.Items.Add(notes.ToString());
+                ListForDataBinding.Add(item);
             }
+            
         }
 
         private void Button_addNotes_Click(object sender, RoutedEventArgs e)
@@ -59,12 +71,12 @@ namespace MainPage
                 return;
             }
             NotesContent notes = new NotesContent();
-            notes._notesText = textBox_notesText.Text;
-            notes._userId = textBox_userId.Text;
+            notes.NotesText = textBox_notesText.Text;
+            notes.UserId = textBox_userId.Text;
 
             if (ValidFileSelected())
             {
-                notes._filePath = textBox_selectedFilePath.Text;
+                notes.FilePath = textBox_selectedFilePath.Text;
             }
 
             if (NotesHandler.AddNotes(notes).Result)
