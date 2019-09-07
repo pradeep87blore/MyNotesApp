@@ -16,12 +16,13 @@ namespace Logic
             notesStructure.Notes[Constants.NOTES_TEXT] = notes._notesText;
             if (!string.IsNullOrEmpty(notes._filePath))
             {
-                if (!UploadFileToS3(notes._filePath))
+                string keyName = "";
+                if (!UploadFileToS3(notes._userId, notes._filePath, out keyName))
                 {
                     Logger.AddLog("Failed to upload file to S3");
                     return false;
                 }
-                notesStructure.Notes[Constants.FILE] = notes._filePath;                
+                notesStructure.Notes[Constants.FILE] = keyName;                
             }
 
             var insertResult = DynamoDBHelper.Instance().InsertNotes(notesStructure);
@@ -37,9 +38,10 @@ namespace Logic
             return insertResult;
         }
 
-        private static bool UploadFileToS3(string filePath)
+        private static bool UploadFileToS3(string userId, string filePath, out string keyName)
         {
-            // TODO: Add logic here
+            var rsp = S3Helper.Instance().UploadFileToS3(Utils.GetBucketName(userId), filePath);
+            keyName = rsp.Result;
             return true;
         }
 

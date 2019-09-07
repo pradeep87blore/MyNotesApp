@@ -25,7 +25,8 @@ namespace Common
             }
             else
             {
-                ret = string.Format("User ID: {0}, TimeStamp: {1}, Notes: {2}, File: {3}", _userId, _timeStamp, _notesText, _filePath);
+                string fileName = Utils.GetFileNameFromKeyName(_filePath);
+                ret = string.Format("User ID: {0}, TimeStamp: {1}, Notes: {2}, File: {3}", _userId, _timeStamp, _notesText, fileName);
             }
 
             return ret;

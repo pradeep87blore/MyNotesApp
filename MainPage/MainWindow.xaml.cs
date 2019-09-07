@@ -36,7 +36,7 @@ namespace MainPage
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            Logic.Initializer.InitializeHelpers();
+            Logic.Initializer.InitializeHelpers(textBox_userId.Text);
 
             var prevNotes = NotesHandler.FetchNotes(textBox_userId.Text);
 

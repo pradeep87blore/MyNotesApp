@@ -1,21 +1,23 @@
 ﻿using AWSHelpers;
+using Common;
 using System;
 
 namespace Logic
 {
     public class Initializer
     {
-        public static bool InitializeHelpers()
-        {
+        static string _userId;
 
-            return InitializeDynamoDBHelper(); // Add more initializers here
-
-        }
-        private static bool InitializeDynamoDBHelper()
+        public async static void InitializeHelpers(string userId)
         {
+            _userId = userId;
+
+            S3Helper.Instance();
+
+            await S3Helper.Instance().CreateS3BucketAsync(Utils.GetBucketName(userId));
+
             DynamoDBHelper.Instance();
-
-            return false;
         }
+                
     }
 }

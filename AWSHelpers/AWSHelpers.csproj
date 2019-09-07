@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.101.62" />
+    <PackageReference Include="AWSSDK.S3" Version="3.3.104.23" />
   </ItemGroup>
 
   <ItemGroup>
