@@ -12,27 +12,34 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Button Content="Exit" Grid.Row="1" FontSize="20" Click="ButtonExit_Click"/>
-        <ListBox x:Name="listBox_previousNotes" ItemsSource="{Binding Source=ListForDataBinding}" HorizontalAlignment="Left" Height="408.55" Margin="260,0,0,0" VerticalAlignment="Center" Width="530">
+        <ListBox x:Name="listBox_previousNotes" ItemsSource="{Binding Source=ListForDataBinding}" HorizontalAlignment="Left" Height="408.55" Width="537" Margin="260,0,0,0" VerticalAlignment="Center" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <WrapPanel>
-                        <TextBlock Text="{Binding Path=NotesTitle}" FontWeight="Bold" FontFamily="Segoe UI" />
-                        <TextBlock Text="{Binding Path=NotesText}" FontWeight="Bold" />
-                        <TextBlock Text="{Binding Path=FilePath}" FontWeight="Bold" />
-                        <TextBlock Text="{Binding Path=TimeStamp}" TextDecorations="Underline" Foreground="Blue" Cursor="Hand" />
+                    <WrapPanel Height="auto" Width="530" Background="AliceBlue">
+                        <Grid Height="auto" Width="530" Background="AliceBlue">
+                            <Label x:Name="label_title" Content="{Binding Path=NotesTitle}" HorizontalAlignment="Left" Height="auto" Margin="10,10,0,0" VerticalAlignment="Top" Width="274"/>
+                            <TextBox x:Name="textBox_notes" Text="{Binding Path=NotesText}" HorizontalAlignment="Left" Height="auto" Margin="10,50,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="460"/>
+                            <Label x:Name="label_timestamp" Content="{Binding Path=TimeStamp}" HorizontalAlignment="Left" Height="auto" Margin="350,10,0,0" VerticalAlignment="Top" Width="125"/>
+                        </Grid>
+
                     </WrapPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True" Height="auto" Width="494"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
         </ListBox>
         <Border BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Left" Height="376" Margin="10,77,0,0" VerticalAlignment="Top" Width="245">
-            <Button x:Name="button" Content=". . ." HorizontalAlignment="Left" Height="30" Margin="198,303,0,0" VerticalAlignment="Top" Width="36" Click="Button_Click"/>
+            <TextBox x:Name="textBox_notesTitle" Margin="12,4,17,342.892" Width="214" Text="TextBox" TextWrapping="Wrap"/>
         </Border>
         <Label x:Name="label" Content="Add new notes" HorizontalAlignment="Left" Height="27" Margin="12,50,0,0" VerticalAlignment="Top" Width="115" RenderTransformOrigin="0.5,0.5"/>
         <Label x:Name="label1" Content="File" HorizontalAlignment="Left" Margin="15,382,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="textBox_selectedFilePath" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="44,383,0,0" Text="Select a file (less than 200KB)" TextWrapping="Wrap" VerticalAlignment="Top" Width="160"/>
-        <TextBox x:Name="textBox_notesText" HorizontalAlignment="Left" Height="284" Margin="23,93,0,0" Text="Type your notes here" TextWrapping="Wrap" VerticalAlignment="Top" Width="214"/>
+        <TextBox x:Name="textBox_notesText"  AcceptsReturn="True" HorizontalAlignment="Left" Height="245" Margin="23,0,0,0" Text="Type your notes here" TextWrapping="Wrap" VerticalAlignment="Center" Width="214"/>
         <Button x:Name="button_addNotes" Content="Save Notes" HorizontalAlignment="Left" Height="24" Margin="44,420,0,0" VerticalAlignment="Top" Width="200" Click="Button_addNotes_Click"/>
-        <TextBox x:Name="textBox_userId" HorizontalAlignment="Left" Height="35" Margin="23,10,0,0" Text="pradeep@gmail.com" TextWrapping="Wrap" VerticalAlignment="Top" Width="214"/>
+        <TextBox x:Name="textBox_userId" HorizontalAlignment="Left" Height="35" Margin="23,10,0,0" Text="pradeep1234@gmail.com" TextWrapping="Wrap" VerticalAlignment="Top" Width="214"/>
         <ComboBox x:Name="comboBox_sortOrder" HorizontalAlignment="Left" Height="35" Margin="636.376,5.096,0,0" VerticalAlignment="Top" Width="142.234">
             <ComboBoxItem Content="Newest First"/>
             <ComboBoxItem Content="Oldest First"/>

@@ -12,8 +12,9 @@ namespace Logic
         {
             NotesStructure notesStructure = new NotesStructure();
             notesStructure.Notes[Constants.USER_ID] = notes.UserId;
-            notesStructure.Notes[Constants.TIMESTAMP] = DateTime.Now.ToString();
+            notesStructure.Notes[Constants.TIMESTAMP] = notes.TimeStamp;
             notesStructure.Notes[Constants.NOTES_TEXT] = notes.NotesText;
+            notesStructure.Notes[Constants.NOTES_TITLE] = notes.NotesTitle;
             if (!string.IsNullOrEmpty(notes.FilePath))
             {
                 string keyName = "";
@@ -55,7 +56,12 @@ namespace Logic
                 NotesContent content = new NotesContent();
                 content.UserId = notes.Notes[Constants.USER_ID];
                 content.TimeStamp = notes.Notes[Constants.TIMESTAMP];
-                content.NotesText = notes.Notes[Constants.NOTES_TEXT];
+                content.NotesText = notes.Notes[Constants.NOTES_TEXT];                
+
+                if (notes.Notes.ContainsKey(Constants.NOTES_TITLE))
+                {
+                    content.NotesTitle = notes.Notes[Constants.NOTES_TITLE];
+                }
 
                 if (notes.Notes.ContainsKey(Constants.FILE))
                 {

@@ -60,7 +60,6 @@ namespace MainPage
             {
                 ListForDataBinding.Add(item);
             }
-            
         }
 
         private void Button_addNotes_Click(object sender, RoutedEventArgs e)
@@ -73,6 +72,8 @@ namespace MainPage
             NotesContent notes = new NotesContent();
             notes.NotesText = textBox_notesText.Text;
             notes.UserId = textBox_userId.Text;
+            notes.NotesTitle = textBox_notesTitle.Text;
+            notes.TimeStamp = DateTime.Now.ToString();
 
             if (ValidFileSelected())
             {
@@ -82,6 +83,8 @@ namespace MainPage
             if (NotesHandler.AddNotes(notes).Result)
             {
                 Logger.AddLog("Successfully added new notes");
+                
+                ListForDataBinding.Add(notes);
             }
             else
             {
