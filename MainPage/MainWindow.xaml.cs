@@ -25,6 +25,7 @@ namespace MainPage
     /// </summary>
     public partial class MainWindow : Window
     {
+        bool bSortNewestFirst = true;
 
         private ObservableCollection<NotesContent> listForDataBinding = new ObservableCollection<NotesContent>();
 
@@ -43,7 +44,7 @@ namespace MainPage
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            
+            InitializeUI();
 
             Logic.Initializer.InitializeHelpers(textBox_userId.Text);
 
@@ -52,13 +53,28 @@ namespace MainPage
             UpdatePreviousNotes(prevNotes);
         }
 
+        private void InitializeUI()
+        {
+            comboBox_sortOrder.IsEditable = false;
+            var comboboxItem_newestFirst = new ComboBoxItem();
+            comboboxItem_newestFirst.Content = Constants.NEWEST_FIRST;
+
+            var comboboxItem_oldestFirst = new ComboBoxItem();
+            comboboxItem_oldestFirst.Content = Constants.OLDEST_FIRST;
+
+            comboBox_sortOrder.Items.Add(comboboxItem_newestFirst);
+            comboBox_sortOrder.Items.Add(comboboxItem_oldestFirst);
+
+            comboBox_sortOrder.SelectedItem = comboboxItem_newestFirst;
+        }
+
         private void UpdatePreviousNotes(List<NotesContent> prevNotes)
         {
             listBox_previousNotes.ItemsSource = ListForDataBinding;
 
-            foreach (var item in prevNotes)
+            foreach (var notes in prevNotes)
             {
-                ListForDataBinding.Add(item);
+                InsertNotesIntoListbox(notes);
             }
         }
 
@@ -83,12 +99,24 @@ namespace MainPage
             if (NotesHandler.AddNotes(notes).Result)
             {
                 Logger.AddLog("Successfully added new notes");
-                
-                ListForDataBinding.Add(notes);
+
+                InsertNotesIntoListbox(notes);
             }
             else
             {
                 MessageBox.Show("Failed to add logs, please retry after some time");
+            }
+        }
+
+        private void InsertNotesIntoListbox(NotesContent notes)
+        {
+            if (bSortNewestFirst)
+            {
+                ListForDataBinding.Insert(0, notes);
+            }
+            else
+            {
+                ListForDataBinding.Add(notes);
             }
         }
 
@@ -125,6 +153,37 @@ namespace MainPage
             Decimal FileSize = Decimal.Divide(fileInfo.Length, 1024);
 
             return (FileSize <= Constants.MAX_FILE_SIZE_KB);
+        }
+
+        private void ComboBox_sortOrder_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBoxItem selectedItem = (ComboBoxItem)comboBox_sortOrder.SelectedItem;
+            if(selectedItem.Content == Constants.NEWEST_FIRST)
+            {
+                if (bSortNewestFirst) // Already sorted by newest first order
+                    return;
+
+                bSortNewestFirst = true;
+
+                ReverseListItems();
+            }
+            else
+            {
+                if (!bSortNewestFirst) // Already sorted by newest first order
+                    return;
+
+                bSortNewestFirst = false;
+
+                ReverseListItems();
+
+            }
+        }
+
+        private void ReverseListItems()
+        {
+            ListForDataBinding = new ObservableCollection<NotesContent>(ListForDataBinding.Reverse());
+
+            listBox_previousNotes.ItemsSource = ListForDataBinding;
         }
     }
 }

@@ -14,5 +14,8 @@ namespace Common
         public const string NOTES_TITLE = "NotesTitle";
         public const string FILE = "File";
         public const string APPNAME = "PradeepBangaloreMyNotesApp";
+
+        public const string NEWEST_FIRST = "Newest First";
+        public const string OLDEST_FIRST = "Oldest First";
     }
 }
