@@ -4,11 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MainPage"
-             mc:Ignorable="d" Height="184.02" Width="416.494">
-    <Grid>
-        <Label x:Name="label_title" Content="Title" HorizontalAlignment="Left" Height="36.392" Margin="10,10,0,0" VerticalAlignment="Top" Width="215.773"/>
-        <TextBox x:Name="textBox_notes" HorizontalAlignment="Center" Height="122.628" Margin="0,51.392,0,0" Text="Notes" TextWrapping="Wrap" VerticalAlignment="Top" Width="396.494"/>
-        <Label x:Name="label_timestamp" Content="Timestamp" HorizontalAlignment="Left" Height="36.392" Margin="243.814,10,0,0" VerticalAlignment="Top" Width="162.68"/>
-
-    </Grid>
+             mc:Ignorable="d" Height="106.102" Width="530">
+    <WrapPanel Width="530" Background="AliceBlue" Margin="0,0,0,33.68">
+        <Grid Height="auto" Width="530" Background="AliceBlue">
+            <TextBox x:Name="label_title" Text="{Binding Path=NotesTitle}" IsReadOnly="True" HorizontalAlignment="Left" Height="auto" Margin="10,10,0,0" VerticalAlignment="Top" Width="274"/>
+            <TextBox x:Name="textBox_notes" Text="{Binding Path=NotesText}" IsReadOnly="True" HorizontalAlignment="Left" Height="auto" Margin="63.951,50,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="406.049"/>
+            <Label x:Name="label_timestamp" Content="{Binding Path=TimeStamp}" HorizontalAlignment="Left" Height="auto" Margin="350,10,0,0" VerticalAlignment="Top" Width="125"/>
+            <Button x:Name="button_delete"  Margin="0,50,486.785,0" Background="{x:Null}" BorderBrush="{x:Null}"  Click="Button_deleteNotes">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/deleteIcon.png"  Width="20" Height="20"/>
+                </StackPanel>
+            </Button>
+            <Button x:Name="button_update"  Margin="25.285,50,461.5,0" Background="{x:Null}" BorderBrush="{x:Null}"  Click="Button_updateNotes">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/updateIcon.png"  Width="20" Height="20"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+    </WrapPanel>
 </UserControl>

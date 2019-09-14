@@ -7,11 +7,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="deleteIcon.png" />
+    <None Remove="editIcon.png" />
     <None Remove="NotesControl.xaml" />
+    <None Remove="updateIcon.png" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Logic\Logic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="deleteIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="editIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="updateIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

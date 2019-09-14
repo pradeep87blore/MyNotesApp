@@ -6,22 +6,31 @@
         xmlns:local="clr-namespace:MainPage"
         mc:Ignorable="d"
         Title="MainWindow" Height="581.015" Width="800" Initialized="Window_Initialized">
-    <Grid>
+    <Grid>        
         <Grid.RowDefinitions>
             <RowDefinition Height="9*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Button Content="Exit" Grid.Row="1" FontSize="20" Click="ButtonExit_Click"/>
-        <ListBox x:Name="listBox_previousNotes" ItemsSource="{Binding Source=ListForDataBinding}" HorizontalAlignment="Left" Height="408.55" Width="537" Margin="260,0,0,0" VerticalAlignment="Center" >
+        <ListBox x:Name="listBox_previousNotes" ItemsSource="{Binding Source=ListForDataBinding}" HorizontalAlignment="Left" Height="408.55" Width="537" Margin="260,0,0,0" VerticalAlignment="Center" SelectionChanged="ListBox_previousNotes_SelectionChanged" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel Height="auto" Width="530" Background="AliceBlue">
                         <Grid Height="auto" Width="530" Background="AliceBlue">
-                            <Label x:Name="label_title" Content="{Binding Path=NotesTitle}" HorizontalAlignment="Left" Height="auto" Margin="10,10,0,0" VerticalAlignment="Top" Width="274"/>
-                            <TextBox x:Name="textBox_notes" Text="{Binding Path=NotesText}" HorizontalAlignment="Left" Height="auto" Margin="10,50,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="460"/>
+                            <TextBox x:Name="label_title" Text="{Binding Path=NotesTitle}" IsReadOnly="True" HorizontalAlignment="Left" Height="auto" Margin="10,10,0,0" VerticalAlignment="Top" Width="274"/>
+                            <TextBox x:Name="textBox_notes" Text="{Binding Path=NotesText}" IsReadOnly="True" HorizontalAlignment="Left" Height="auto" Margin="63.951,50,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="406.049"/>
                             <Label x:Name="label_timestamp" Content="{Binding Path=TimeStamp}" HorizontalAlignment="Left" Height="auto" Margin="350,10,0,0" VerticalAlignment="Top" Width="125"/>
+                            <Button x:Name="button_delete"  Margin="0,40,487,10" Width="25" Height="25" Background="{x:Null}" BorderBrush="Black"  Click="Button_deleteNotes">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/deleteIcon.png"  Width="20" Height="20"/>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="button_update"  Margin="25,40,465,10" Width="25" Height="25" Background="{x:Null}" BorderBrush="Black"  Click="Button_updateNotes">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/editIcon.png"  Width="20" Height="20"/>
+                                </StackPanel>
+                            </Button>
                         </Grid>
-
                     </WrapPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

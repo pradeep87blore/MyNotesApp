@@ -22,5 +22,15 @@ namespace MainPage
         {
             InitializeComponent();
         }
+
+        private void Button_deleteNotes(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_updateNotes(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

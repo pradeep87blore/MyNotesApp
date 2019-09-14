@@ -187,6 +187,17 @@ namespace AWSHelpers
             return notes;
         }
 
+        public bool DeleteItem(NotesStructure notesToDelete)
+        {
+
+            return false;
+        }
+
+        public bool UpdateItem(NotesStructure notesToUpdate)
+        {
+
+            return false;
+        }
 
         private static void PrintDocument(Document updatedDocument)
         {

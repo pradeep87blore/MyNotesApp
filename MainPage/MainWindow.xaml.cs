@@ -31,6 +31,8 @@ namespace MainPage
 
         public ObservableCollection<NotesContent> ListForDataBinding { get => listForDataBinding; set => listForDataBinding = value; }
 
+        NotesContent selectedNotes = null;
+
         public MainWindow()
         {
             //this.DataContext = this;
@@ -50,7 +52,7 @@ namespace MainPage
 
             var prevNotes = NotesHandler.FetchNotes(textBox_userId.Text);
 
-            UpdatePreviousNotes(prevNotes);
+            LoadPreviousNotes(prevNotes);
         }
 
         private void InitializeUI()
@@ -68,7 +70,7 @@ namespace MainPage
             comboBox_sortOrder.SelectedItem = comboboxItem_newestFirst;
         }
 
-        private void UpdatePreviousNotes(List<NotesContent> prevNotes)
+        private void LoadPreviousNotes(List<NotesContent> prevNotes)
         {
             listBox_previousNotes.ItemsSource = ListForDataBinding;
 
@@ -184,6 +186,25 @@ namespace MainPage
             ListForDataBinding = new ObservableCollection<NotesContent>(ListForDataBinding.Reverse());
 
             listBox_previousNotes.ItemsSource = ListForDataBinding;
+        }
+
+        private void Button_deleteNotes(object sender, RoutedEventArgs e)
+        {
+           
+        }
+
+        private void Button_updateNotes(object sender, RoutedEventArgs e)
+        {
+            Button btn = (Button)sender;
+            StackPanel imagePanel = (StackPanel)btn.Content;
+            // Image img = (Image)imagePanel.Children // Get the image and update it
+
+            var updated = (NotesContent)listBox_previousNotes.SelectedItem; // Fetch and store the values that were originally set
+        }
+
+        private void ListBox_previousNotes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedNotes = (NotesContent)listBox_previousNotes.SelectedItem; // Fetch and store the values that were originally set
         }
     }
 }
