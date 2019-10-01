@@ -41,7 +41,7 @@ namespace Logic
 
         private static bool UploadFileToS3(string userId, string filePath, out string keyName)
         {
-            var rsp = S3Helper.Instance().UploadFileToS3(Utils.GetBucketName(userId), filePath);
+            var rsp = S3Helper.Instance().UploadFileToS3(Utils.GetBucketName(), filePath,  userId);
             keyName = rsp.Result;
             return true;
         }

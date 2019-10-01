@@ -14,8 +14,14 @@ namespace Common
         public const string NOTES_TITLE = "NotesTitle";
         public const string FILE = "File";
         public const string APPNAME = "PradeepBangaloreMyNotesApp";
+        public const string KEY = "MetadataKey"; // The key used in the MyNotesMetadata table
+        public const string VALUE = "Value"; // The value field name used in the MyNotesMetadata table
 
         public const string NEWEST_FIRST = "Newest First";
         public const string OLDEST_FIRST = "Oldest First";
+
+        public const string MyNotesAppMetadataTable = "MyNotesMetadataTable";
+
+        public const string TOP_LEVEL_BUCKET_NAME_METADATA_KEY = "S3TopLevelBucketName";
     }
 }

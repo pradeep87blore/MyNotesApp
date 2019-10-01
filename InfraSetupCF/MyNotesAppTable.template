@@ -24,7 +24,7 @@
             "Description" : "HashType PrimaryKey Name",
             "Type"        : "String",
             "AllowedPattern" : "[a-zA-Z0-9]*",
-            "Default"        : "Key",
+            "Default"        : "MetadataKey",
             "MinLength"      : "1",
             "MaxLength"      : "100",
             "ConstraintDescription" : "must contain only alphanumberic characters"

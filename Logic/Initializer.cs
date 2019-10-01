@@ -10,13 +10,7 @@ namespace Logic
 
         public async static void InitializeHelpers(string userId)
         {
-            _userId = userId;
-
-            S3Helper.Instance();
-
-            await S3Helper.Instance().CreateS3BucketAsync(Utils.GetBucketName(userId));
-
-            DynamoDBHelper.Instance();
+            _userId = userId; 
         }
                 
     }

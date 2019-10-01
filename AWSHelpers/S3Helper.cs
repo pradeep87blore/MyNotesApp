@@ -36,11 +36,11 @@ namespace AWSHelpers
             return instance;
         }
 
-        public async Task<bool> CreateS3BucketAsync(string bucketName)
+        public bool CreateS3Bucket(string bucketName)
         {
             try
             {
-                if (!(await AmazonS3Util.DoesS3BucketExistV2Async(client, bucketName)))
+                if (!(AmazonS3Util.DoesS3BucketExistV2Async(client, bucketName).Result))
                 {
                     var putBucketRequest = new PutBucketRequest
                     {
@@ -48,7 +48,7 @@ namespace AWSHelpers
                         UseClientRegion = true
                     };
 
-                    PutBucketResponse putBucketResponse = await client.PutBucketAsync(putBucketRequest);
+                    PutBucketResponse putBucketResponse = client.PutBucketAsync(putBucketRequest).Result;
 
                     return (putBucketResponse.HttpStatusCode == System.Net.HttpStatusCode.OK);
                 }
@@ -65,14 +65,14 @@ namespace AWSHelpers
             return false;
         }
 
-        public async Task<string> UploadFileToS3(string bucketName, string filePath)
+        public async Task<string> UploadFileToS3(string bucketName, string filePath, string userId)
         {
             var fileTransferUtility =
                     new TransferUtility(client);
 
             string keyName = Utils.GetKeyName(filePath);
             // Option 2. Specify object key name explicitly.
-            fileTransferUtility.UploadAsync(filePath, bucketName, keyName);
+            fileTransferUtility.UploadAsync(filePath, bucketName, Utils.GetFilePath(userId, keyName));
 
             return keyName; // Shall be used to retrieve the item
         }

@@ -14,105 +14,22 @@ namespace AWSHelpers
         private static DynamoDBHelper instance;
 
         private AmazonDynamoDBClient client = new AmazonDynamoDBClient();
-        private const string tableName = "MyNotesApp";
+        private const string notesTableName = "MyNotes";
+        private const string metadataTableName = "MyNotesMetadata";
 
         private Table notesTable = null;
+        private Table metadataTable = null;
 
         private DynamoDBHelper()
         {
             try
             {
-                CheckForAndCreateTable(); // Not adding an await since it can continue in the background                
+
             }
             catch (Exception ex)
             {
                 Logger.AddLog(ex.ToString());
             }
-        }
-
-        private async Task CheckForAndCreateTable()
-        {
-            if (DoesTableAlreadyExist(tableName))
-            {
-                Logger.AddLog("Table " + tableName + " already exists");
-            }
-            else
-            {
-                var request = new CreateTableRequest
-                {
-                    TableName = tableName,
-                    AttributeDefinitions = new List<AttributeDefinition>
-                    {
-                        new AttributeDefinition
-                        {
-                            AttributeName = "UserID",
-                            AttributeType = "S"
-                        },
-                        new AttributeDefinition
-                        {
-                            AttributeName = "Timestamp",
-                            AttributeType = "S"
-                        }
-                    },
-                    KeySchema = new List<KeySchemaElement>
-                    {
-                        new KeySchemaElement
-                        {
-                            AttributeName = "UserID",
-                            KeyType = "HASH"
-                        },
-                        new KeySchemaElement
-                        {
-                            AttributeName = "Timestamp",
-                            KeyType = "RANGE"
-                        },
-                    },
-                    ProvisionedThroughput = new ProvisionedThroughput
-
-                    {
-                        ReadCapacityUnits = 2,
-                        WriteCapacityUnits = 2
-                    },
-                };
-
-                var response = client.CreateTableAsync(request);
-
-                WaitUntilTableReady(tableName);
-            }
-        }
-
-        private void WaitUntilTableReady(string tableName)
-        {
-            string status = null;
-            // Let us wait until table is created. Call DescribeTable.
-            do
-            {
-                System.Threading.Thread.Sleep(5000); // Wait 5 seconds.
-                try
-                {
-                    var res = client.DescribeTableAsync(new DescribeTableRequest
-                    {
-                        TableName = tableName
-                    });
-
-                    Logger.AddLog(string.Format("Table name: {0}, status: {1}",
-                              res.Result.Table.TableName,
-                              res.Result.Table.TableStatus));
-                    status = res.Result.Table.TableStatus;
-                }
-                catch (ResourceNotFoundException)
-                {
-                    // DescribeTable is eventually consistent. So you might
-                    // get resource not found. So we handle the potential exception.
-                }
-            } while (status != "ACTIVE");
-        }
-
-        private bool DoesTableAlreadyExist(string tableName)
-        {
-            var currentTables = client.ListTablesAsync().Result.TableNames;
-
-            return currentTables.Contains(tableName);
         }
 
         public static DynamoDBHelper Instance()
@@ -122,13 +39,28 @@ namespace AWSHelpers
                 instance = new DynamoDBHelper();
             }
 
+            LoadTableHandles();
+
+            return instance;
+        }
+
+        private static void LoadTableHandles()
+        {
             // If the table is not loaded, load it up
             if (instance.notesTable == null)
             {
-                instance.notesTable = Table.LoadTable(instance.client, tableName);
+                instance.notesTable = Table.LoadTable(instance.client, notesTableName);
             }
 
-            return instance;
+            if (instance.metadataTable == null)
+            {
+                instance.metadataTable = Table.LoadTable(instance.client, metadataTableName);
+            }
+
+            if ((instance.metadataTable == null) || (instance.notesTable == null))
+            {
+                throw new ApplicationException("The required DB tables are not initialized. Run the appropriate cloud formation templates to get them initialized");
+            }
         }
 
         public bool InsertNotes(NotesStructure inputNotes)
@@ -213,6 +145,58 @@ namespace AWSHelpers
                                                     select primitive.Value).ToArray());
                 Logger.AddLog(string.Format("{0} - {1}", attribute, stringValue));
             }
+        }
+
+        public string FetchMetadata(string searchkey)
+        {
+            QueryFilter filter = new QueryFilter();
+            filter.AddCondition(Constants.KEY, QueryOperator.Equal, searchkey);
+
+            QueryOperationConfig config = new QueryOperationConfig();
+            config.Select = SelectValues.AllAttributes;
+            config.Filter = filter;
+
+            Search searchRes = metadataTable.Query(config);
+            List<Document> documentSet = new List<Document>();
+            do
+            {
+                try
+                {
+                    // We can assume there is only one entry per key. 
+                    // Hence, we are fetching the first item as required
+                    documentSet = searchRes.GetNextSetAsync().Result;
+                    Console.WriteLine("\nFindRepliesInLast15DaysWithConfig: printing ............");
+                    return documentSet[0][Constants.VALUE];
+                }
+                catch(Exception ex)
+                {
+                    Logger.AddLog(ex.ToString());
+                }
+            } while (!searchRes.IsDone);
+
+            return String.Empty;
+        }
+
+        public bool InsertMetadata(string key, string value)
+        {
+            try
+            {
+                // This creates a new entry if the same key didnt exist.
+                // If the key existed, the value will be updated.
+                var notes = new Document();
+
+                notes[Constants.KEY] = key;
+                notes[Constants.VALUE] = value;
+
+                var rsp = metadataTable.PutItemAsync(notes);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.AddLog(ex.ToString());
+            }
+            return false;
         }
 
     }
