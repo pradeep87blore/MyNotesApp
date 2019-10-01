@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MainPage"
         mc:Ignorable="d"
         Title="MainWindow" Height="581.015" Width="800" Initialized="Window_Initialized">
-    <Grid>        
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="9*"/>
             <RowDefinition Height="1*"/>
@@ -17,15 +17,16 @@
                 <DataTemplate>
                     <WrapPanel Height="auto" Width="530" Background="AliceBlue">
                         <Grid Height="auto" Width="530" Background="AliceBlue">
-                            <TextBox x:Name="label_title" Text="{Binding Path=NotesTitle}" IsReadOnly="True" HorizontalAlignment="Left" Height="auto" Margin="10,10,0,0" VerticalAlignment="Top" Width="274"/>
-                            <TextBox x:Name="textBox_notes" Text="{Binding Path=NotesText}" IsReadOnly="True" HorizontalAlignment="Left" Height="auto" Margin="63.951,50,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="406.049"/>
-                            <Label x:Name="label_timestamp" Content="{Binding Path=TimeStamp}" HorizontalAlignment="Left" Height="auto" Margin="350,10,0,0" VerticalAlignment="Top" Width="125"/>
-                            <Button x:Name="button_delete"  Margin="0,40,487,10" Width="25" Height="25" Background="{x:Null}" BorderBrush="Black"  Click="Button_deleteNotes">
+                            <TextBox x:Name="label_title" Text="{Binding Path=NotesTitle}" IsReadOnly="True" HorizontalAlignment="Left" Height="auto" Margin="10,27.04,0,0" VerticalAlignment="Top" Width="274" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Lucida Console"/>
+                            <TextBox x:Name="textBox_notes" Text="{Binding Path=NotesText}" IsReadOnly="True" HorizontalAlignment="Center" Height="auto" Margin="0,52.5,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="406.049"/>
+                            <Label x:Name="label_timestamp" Content="{Binding Path=TimeStamp}" HorizontalAlignment="Left" Height="22.04" Margin="10,0,0,0" VerticalAlignment="Top" Width="181.403" FontSize="10"/>
+                            <Image Source="{Binding Path=FilePath}" Margin="420.531,8.98,58.815,27.5"/>
+                            <Button x:Name="button_delete"  Margin="0,50,487,10" Width="25" Height="25" Background="{x:Null}" BorderBrush="Black"  Click="Button_deleteNotes">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/deleteIcon.png"  Width="20" Height="20"/>
                                 </StackPanel>
                             </Button>
-                            <Button x:Name="button_update"  Margin="25,40,465,10" Width="25" Height="25" Background="{x:Null}" BorderBrush="Black"  Click="Button_updateNotes">
+                            <Button x:Name="button_update"  Margin="25,50,465,10" Width="25" Height="25" Background="{x:Null}" BorderBrush="Black"  Click="Button_updateNotes">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/editIcon.png"  Width="20" Height="20"/>
                                 </StackPanel>
@@ -44,13 +45,14 @@
             <TextBox x:Name="textBox_notesTitle" Margin="12,4,17,342.892" Width="214" Text="TextBox" TextWrapping="Wrap"/>
         </Border>
         <Label x:Name="label" Content="Add new notes" HorizontalAlignment="Left" Height="27" Margin="12,50,0,0" VerticalAlignment="Top" Width="115" RenderTransformOrigin="0.5,0.5"/>
-        <Label x:Name="label1" Content="File" HorizontalAlignment="Left" Margin="15,382,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox_selectedFilePath" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="44,383,0,0" Text="Select a file (less than 200KB)" TextWrapping="Wrap" VerticalAlignment="Top" Width="160"/>
+        <Label x:Name="label1" Content="Image" HorizontalAlignment="Left" Margin="8.865,379.545,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox_selectedFilePath" IsReadOnly="True" HorizontalAlignment="Left" Height="25" Margin="53.172,383,0,0" Text="Select an image (less than 200KB)" TextWrapping="Wrap" VerticalAlignment="Top" Width="167.028" FontSize="10"/>
         <TextBox x:Name="textBox_notesText"  AcceptsReturn="True" HorizontalAlignment="Left" Height="245" Margin="23,0,0,0" Text="Type your notes here" TextWrapping="Wrap" VerticalAlignment="Center" Width="214"/>
         <Button x:Name="button_addNotes" Content="Save Notes" HorizontalAlignment="Left" Height="24" Margin="44,420,0,0" VerticalAlignment="Top" Width="200" Click="Button_addNotes_Click"/>
-        <TextBox x:Name="textBox_userId" HorizontalAlignment="Left" Height="35" Margin="23,10,0,0" Text="pradeep@gmail.com" TextWrapping="Wrap" VerticalAlignment="Top" Width="214"/>
+        <TextBox x:Name="textBox_userId" HorizontalAlignment="Left" Height="35" Margin="23,10,0,0" Text="pradeep1234@gmail.com" TextWrapping="Wrap" VerticalAlignment="Top" Width="214"/>
         <ComboBox x:Name="comboBox_sortOrder" HorizontalAlignment="Left" Height="35" Margin="636.376,5.096,0,0" VerticalAlignment="Top" Width="142.234" SelectionChanged="ComboBox_sortOrder_SelectionChanged"/>
 
         <Label x:Name="label2" Content="My Notes" HorizontalAlignment="Left" Height="35" Margin="260,10,0,0" VerticalAlignment="Top" Width="166.703"/>
+        <Button x:Name="button_selectImage" Content="..." HorizontalAlignment="Left" Margin="225.2,384.227,0,0" VerticalAlignment="Top" Height="23.705" Click="Button_selectImage_Click_1"/>
     </Grid>
 </Window>

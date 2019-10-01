@@ -87,7 +87,7 @@ namespace MainPage
                 MessageBox.Show("Please enter some text to save to notes");
                 return;
             }
-            NotesContent notes = new NotesContent();
+            NotesContent notes = new NotesContent(null);
             notes.NotesText = textBox_notesText.Text;
             notes.UserId = textBox_userId.Text;
             notes.NotesTitle = textBox_notesTitle.Text;
@@ -130,10 +130,17 @@ namespace MainPage
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e) // Open file dialog to select a file
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            textBox_selectedFilePath.Text = String.Empty;
+            openFileDialog.Filter = "Image Files(*.BMP; *.JPG; *.GIF)| *.BMP; *.JPG; *.GIF";
+                   textBox_selectedFilePath.Text = String.Empty;
+
             if (openFileDialog.ShowDialog() == true)
             {
                 if (IsFileSizeOK(openFileDialog.FileName))
@@ -193,18 +200,39 @@ namespace MainPage
            
         }
 
+        bool bStartEditNotes = false;
+        
         private void Button_updateNotes(object sender, RoutedEventArgs e)
         {
             Button btn = (Button)sender;
             StackPanel imagePanel = (StackPanel)btn.Content;
-            // Image img = (Image)imagePanel.Children // Get the image and update it
+            Image img = (Image)imagePanel.Children[0];
 
+            if(bStartEditNotes == true)
+            {
+
+            }
+            else
+            {
+
+            }
+            
             var updated = (NotesContent)listBox_previousNotes.SelectedItem; // Fetch and store the values that were originally set
         }
 
         private void ListBox_previousNotes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedNotes = (NotesContent)listBox_previousNotes.SelectedItem; // Fetch and store the values that were originally set
+            selectedNotes = new NotesContent((NotesContent)listBox_previousNotes.SelectedItem); // Fetch and store the values that were originally set
+        }
+
+        private void Button_selectImage_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_selectImage_Click_1(object sender, RoutedEventArgs e)
+        {
+            Button_Click(sender, e);
         }
     }
 }

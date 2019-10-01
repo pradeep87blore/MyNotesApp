@@ -10,6 +10,7 @@
             <TextBox x:Name="label_title" Text="{Binding Path=NotesTitle}" IsReadOnly="True" HorizontalAlignment="Left" Height="auto" Margin="10,10,0,0" VerticalAlignment="Top" Width="274"/>
             <TextBox x:Name="textBox_notes" Text="{Binding Path=NotesText}" IsReadOnly="True" HorizontalAlignment="Left" Height="auto" Margin="63.951,50,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="406.049"/>
             <Label x:Name="label_timestamp" Content="{Binding Path=TimeStamp}" HorizontalAlignment="Left" Height="auto" Margin="350,10,0,0" VerticalAlignment="Top" Width="125"/>
+            
             <Button x:Name="button_delete"  Margin="0,50,486.785,0" Background="{x:Null}" BorderBrush="{x:Null}"  Click="Button_deleteNotes">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/deleteIcon.png"  Width="20" Height="20"/>

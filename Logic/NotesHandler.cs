@@ -53,7 +53,7 @@ namespace Logic
 
             foreach(var notes in rsp)
             {
-                NotesContent content = new NotesContent();
+                NotesContent content = new NotesContent(null);
                 content.UserId = notes.Notes[Constants.USER_ID];
                 content.TimeStamp = notes.Notes[Constants.TIMESTAMP];
                 content.NotesText = notes.Notes[Constants.NOTES_TEXT];                

@@ -15,7 +15,18 @@ namespace Common
         private string _timeStamp = "";
 
         private string _notesTitle = "";
-                
+
+        public NotesContent(NotesContent selectedItem) // Do a deep copy (Copy Constructor)
+        {
+            if (selectedItem != null)
+            {
+                this.NotesText = new string(selectedItem.NotesText);
+                this.FilePath = new string(selectedItem.FilePath);
+                this.UserId = new string(selectedItem.UserId);
+                this.TimeStamp = new string(selectedItem.TimeStamp);
+                this.NotesText = new string(selectedItem.NotesText);
+            }
+        }
 
         public string NotesText { get => _notesText; set => _notesText = value; }
         public string FilePath { get => _filePath; set => _filePath = value; }
