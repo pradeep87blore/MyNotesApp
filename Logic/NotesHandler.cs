@@ -39,9 +39,14 @@ namespace Logic
             return insertResult;
         }
 
+        public static string GetBucketName()
+        {
+            return DynamoDBHelper.Instance().FetchMetadata(Constants.TOP_LEVEL_BUCKET_NAME_METADATA_KEY);
+        }
+
         private static bool UploadFileToS3(string userId, string filePath, out string keyName)
         {
-            var rsp = S3Helper.Instance().UploadFileToS3(Utils.GetBucketName(), filePath,  userId);
+            var rsp = S3Helper.Instance().UploadFileToS3(GetBucketName(), filePath,  userId);
             keyName = rsp.Result;
             return true;
         }

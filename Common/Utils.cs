@@ -10,16 +10,7 @@ namespace Common
     {
         const string SEPARATOR = "!!!"; // To act as a separator between the file name and the timestamp, while creating the keyname
         
-        /// <summary>
-        /// Bucket name shall be the same as the app name but in lower letters
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public static string GetBucketName()
-        {
-            return Constants.APPNAME.ToLower();
-        }
-
+       
         public static string GetBucketPathForUser(string userId)
         {
             string subBucket = Constants.APPNAME + userId;
