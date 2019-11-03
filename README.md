@@ -29,4 +29,5 @@ Can pin or star notes - TBD
 1. Create the Cognito ID pool with CF or at least programatically
 2. Thumbnail creator and displaying the image in the notes post app restart
 3. Display user's Twitter profile image in the app
+4. Use the user's Twitter credentials to access the S3 and DynamoDB
 
