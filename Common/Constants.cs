@@ -9,7 +9,7 @@ namespace Common
         public const int MAX_FILE_SIZE_KB = 200;
 
         public const string USER_ID = "UserID";
-        public const string TIMESTAMP = "Timestamp";
+        public const string TIMESTAMP = "TimeStamp";
         public const string NOTES_TEXT = "NotesText";
         public const string NOTES_TITLE = "NotesTitle";
         public const string FILE = "File";
@@ -23,5 +23,6 @@ namespace Common
         public const string MyNotesAppMetadataTable = "MyNotesMetadataTable";
 
         public const string TOP_LEVEL_BUCKET_NAME_METADATA_KEY = "S3TopLevelBucketName";
+        public const string TOP_LEVEL_THUMBNAIL_BUCKET_NAME_METADATA_KEY = "S3TopLevelThumbnailBucketName";
     }
 }

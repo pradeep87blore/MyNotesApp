@@ -35,6 +35,16 @@ namespace ResourceInitializer
                     {
                         UpdateMetadataWithS3BucketName(newBucketName);
                     }
+
+                    var thumbnailBucketName = newBucketName + "-thumbnails";
+
+                    bucketCreated = S3Helper.Instance().CreateS3Bucket(thumbnailBucketName);
+
+                    if (bucketCreated)
+                    {
+                        UpdateMetadataWithS3ThumbailBucketName(thumbnailBucketName);
+                    }
+
                 }
                 while (bucketCreated == false);
             }
@@ -43,6 +53,11 @@ namespace ResourceInitializer
         private static void UpdateMetadataWithS3BucketName(string newBucketName)
         {
             DynamoDBHelper.Instance().InsertMetadata(Constants.TOP_LEVEL_BUCKET_NAME_METADATA_KEY, newBucketName);
+        }
+
+        private static void UpdateMetadataWithS3ThumbailBucketName(string thumbnailBucketName)
+        {
+            DynamoDBHelper.Instance().InsertMetadata(Constants.TOP_LEVEL_THUMBNAIL_BUCKET_NAME_METADATA_KEY, thumbnailBucketName);
         }
 
     }

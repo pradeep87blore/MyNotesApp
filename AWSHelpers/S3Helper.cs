@@ -68,7 +68,7 @@ namespace AWSHelpers
         public async Task<string> UploadFileToS3(string bucketName, string filePath, string userId)
         {
             var fileTransferUtility =
-                    new TransferUtility(client);
+        new TransferUtility(client);
 
             string keyName = Utils.GetKeyName(filePath);
             // Option 2. Specify object key name explicitly.

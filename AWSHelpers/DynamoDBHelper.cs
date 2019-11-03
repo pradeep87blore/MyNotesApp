@@ -14,24 +14,24 @@ namespace AWSHelpers
         private static DynamoDBHelper instance;
 
         private AmazonDynamoDBClient client = new AmazonDynamoDBClient();
-        private const string notesTableName = "MyNotes";
-        private const string metadataTableName = "MyNotesMetadata";
+        private const string notesTableName = "MyNotes"; // Ensure to have the same name in the Cloudformation template as well
+        private const string metadataTableName = "MyNotesMetadata"; // Ensure to have the same name in the Cloudformation template as well
 
         private Table notesTable = null;
         private Table metadataTable = null;
 
+        /// <summary>
+        /// Private constructor - Singleton pattern
+        /// </summary>
         private DynamoDBHelper()
         {
-            try
-            {
-
-            }
-            catch (Exception ex)
-            {
-                Logger.AddLog(ex.ToString());
-            }
+            
         }
 
+        /// <summary>
+        /// Returns the Single instance post doing some initializations
+        /// </summary>
+        /// <returns></returns>
         public static DynamoDBHelper Instance()
         {
             if (instance == null)
@@ -44,6 +44,9 @@ namespace AWSHelpers
             return instance;
         }
 
+        /// <summary>
+        /// Loads the DynamoDB table handles
+        /// </summary>
         private static void LoadTableHandles()
         {
             // If the table is not loaded, load it up
@@ -63,6 +66,11 @@ namespace AWSHelpers
             }
         }
 
+        /// <summary>
+        /// Inserts the notes into the appropriate DynamoDB table
+        /// </summary>
+        /// <param name="inputNotes"></param>
+        /// <returns></returns>
         public bool InsertNotes(NotesStructure inputNotes)
         {
             try
@@ -74,7 +82,7 @@ namespace AWSHelpers
                     notes[field.Key] = field.Value; // Populate the notes Document from the input dictionary
                 }
 
-                var rsp = notesTable.PutItemAsync(notes);
+                PutItem(notes);
 
                 return true;
             }
@@ -85,58 +93,95 @@ namespace AWSHelpers
             return false;
         }
 
+        private async Task PutItem(Document notes)
+        {
+            try
+            {
+                var rsp = await notesTable.PutItemAsync(notes);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+        }
+
+        /// <summary>
+        /// Fetch all the notes of a specific user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public List<NotesStructure> FetchNotes(string userId)
         {
             List<NotesStructure> notes = new List<NotesStructure>();
 
-            QueryFilter filter = new QueryFilter(Constants.USER_ID, QueryOperator.Equal, userId);
-            QueryOperationConfig config = new QueryOperationConfig()
+            var request = new QueryRequest
             {
-                Filter = filter,
-                ConsistentRead = true
-            };
-
-            Search search = notesTable.Query(config);
-
-            List<Document> documentSet = new List<Document>();
-            do
-            {
-                documentSet = search.GetNextSetAsync().Result;
-                Console.WriteLine("\nFindRepliesInLast15DaysWithConfig: printing ............");
-                foreach (var document in documentSet)
+                TableName = notesTableName,
+                KeyConditions = new Dictionary<string, Condition>
                 {
-                    NotesStructure notesStructure = new NotesStructure();
-                    foreach (var field in document)
-                    {
-                        notesStructure.Notes[field.Key] = field.Value;
+                    { Constants.USER_ID, new Condition()
+                        {
+                            ComparisonOperator = ComparisonOperator.EQ,
+                            AttributeValueList = new List<AttributeValue>
+                                {
+                                new AttributeValue { S = userId }   // S means attribute is of type string
+                                }
+                        }
                     }
-
-                    notes.Add(notesStructure);
+                },
+            };
+            var response = client.QueryAsync(request).Result;
+            foreach (var item in response.Items)
+            {
+                NotesStructure notesStructure = new NotesStructure();
+                foreach (var field in item)
+                {
+                    notesStructure.Notes[field.Key] = field.Value.S; // S implies a string type
                 }
 
-            } while (!search.IsDone);
+                notes.Add(notesStructure);
+            }
 
             return notes;
         }
 
+        /// <summary>
+        /// Delete a specific notes item from DynamoDB
+        /// </summary>
+        /// <param name="notesToDelete"></param>
+        /// <returns></returns>
         public bool DeleteItem(NotesStructure notesToDelete)
         {
 
             return false;
         }
 
+        /// <summary>
+        /// Update a specific notes item in DynamoDB
+        /// </summary>
+        /// <param name="notesToUpdate"></param>
+        /// <returns></returns>
         public bool UpdateItem(NotesStructure notesToUpdate)
         {
 
             return false;
         }
 
-        private static void PrintDocument(Document updatedDocument)
+        /// <summary>
+        /// Helper method to print the contents of a Document object
+        /// </summary>
+        /// <param name="doc"></param>
+        private static void PrintDocument(Document doc)
         {
-            foreach (var attribute in updatedDocument.GetAttributeNames())
+            if (doc == null)
+            {
+                return;
+            }
+
+            foreach (var attribute in doc.GetAttributeNames())
             {
                 string stringValue = null;
-                var value = updatedDocument[attribute];
+                var value = doc[attribute];
                 if (value is Primitive)
                     stringValue = value.AsPrimitive().Value.ToString();
                 else if (value is PrimitiveList)
@@ -147,6 +192,11 @@ namespace AWSHelpers
             }
         }
 
+        /// <summary>
+        /// Fetch the specified metadata field from the metadata DynamoDB table
+        /// </summary>
+        /// <param name="searchkey"></param>
+        /// <returns></returns>
         public string FetchMetadata(string searchkey)
         {
             QueryFilter filter = new QueryFilter();
@@ -177,6 +227,12 @@ namespace AWSHelpers
             return String.Empty;
         }
 
+        /// <summary>
+        /// Insert or update the specified metadata field into the metadata DynamoDB table
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public bool InsertMetadata(string key, string value)
         {
             try

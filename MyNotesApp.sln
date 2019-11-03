@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj", "{322F444D-3789-4052-A61B-CD2D61456CA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceInitializer", "ResourceInitializer\ResourceInitializer.csproj", "{F0EA3A50-37B0-4232-AA7F-B104B82C47F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceInitializer", "ResourceInitializer\ResourceInitializer.csproj", "{F0EA3A50-37B0-4232-AA7F-B104B82C47F0}"
 EndProject
 Project("{22325025-CDA3-4736-83CB-2D32D2FCC215}") = "InfraSetupCF", "InfraSetupCF\InfraSetupCF.cfproj", "{99999999-9999-9999-9999-999999999999}"
 EndProject
