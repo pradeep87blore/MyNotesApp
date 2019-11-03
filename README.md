@@ -20,3 +20,8 @@ Wpf ui in desktop client to add, edit and delete notes - TBD
 Notes can be sorted in any order - TBD
 Can pin or star notes - TBD
 
+# To run this:
+1. First deploy the Cloudformation template (MyNotesAppTable.template) appropriately. This creates the DynamoDB tables
+2. Next, run the project ResourceInitializer. This creates the required S3 tables, etc.
+3. Next, launch the application by running the MainPage project.
+

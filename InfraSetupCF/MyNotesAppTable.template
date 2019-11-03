@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion" : "2010-09-09",
-    "Description"              : "This template creates the main table for the MyNotes app",
+    "Description"              : "This template creates the main tables for the MyNotes app",
     "Parameters"               : {
         "UserID" : {
             "Description" : "HashType PrimaryKey Name",
