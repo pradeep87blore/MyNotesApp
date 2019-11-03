@@ -10,7 +10,9 @@ namespace ResourceInitializer
         {
             InitializeS3();
 
-            InitializeLambda();
+            //InitializeLambda();
+
+            Console.WriteLine("Done,  please exit this program");
         }
 
         private static void InitializeLambda()
@@ -47,6 +49,10 @@ namespace ResourceInitializer
 
                 }
                 while (bucketCreated == false);
+            }
+            else
+            {
+                Console.WriteLine("Required S3 buckets already exist, not creating new ones now");
             }
         }
 

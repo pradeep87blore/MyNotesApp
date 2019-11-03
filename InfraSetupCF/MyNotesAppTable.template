@@ -1,121 +1,151 @@
 {
-    "AWSTemplateFormatVersion" : "2010-09-09",
-    "Description"              : "This template creates the main tables for the MyNotes app",
-    "Parameters"               : {
-        "UserID" : {
-            "Description" : "HashType PrimaryKey Name",
-            "Type"        : "String",
-            "Default"     : "S",
-            "AllowedPattern" : "S",
-            "MinLength"      : "1",
-            "MaxLength"      : "100",
-            "ConstraintDescription" : "must be a string"
-        },
-        "TimeStamp" : {
-            "Description" : "RangeType SecondaryKey Type",
-            "Type"        : "String",
-            "Default"     : "S",
-            "AllowedPattern" : "S",
-            "MinLength"      : "1",
-            "MaxLength"      : "100",
-            "ConstraintDescription" : "must be a string"
-        },
-        "HashKey"   : {
-            "Description" : "HashType PrimaryKey Name",
-            "Type"        : "String",
-            "AllowedPattern" : "[a-zA-Z0-9]*",
-            "Default"        : "MetadataKey",
-            "MinLength"      : "1",
-            "MaxLength"      : "100",
-            "ConstraintDescription" : "must contain only alphanumberic characters"
-        },
-        "ReadCapacityUnits" : {
-            "Description" : "Provisioned read throughput",
-            "Type"        : "Number",
-            "Default"     : "2",
-            "MinValue"    : "2",
-            "MaxValue"    : "10",
-            "ConstraintDescription" : "must be between 5 and 10000"
-        },
-        "WriteCapacityUnits" : {
-            "Description" : "Provisioned write throughput",
-            "Type"        : "Number",
-            "Default"     : "2",
-            "MinValue"    : "2",
-            "MaxValue"    : "10",
-            "ConstraintDescription" : "must be between 5 and 10000"
-        }
-    },
-    "Resources"                : {
-        "MyNotes" : {
-            "Type" : "AWS::DynamoDB::Table",
-            "Properties" : {
-                "AttributeDefinitions" : [
-                    {
-                        "AttributeName" : "UserID",
-                        "AttributeType" : {
-                            "Ref" : "UserID"
-                        }
-                    },
-                    {
-                        "AttributeName" : "TimeStamp",
-                        "AttributeType" : {
-                            "Ref" : "TimeStamp"
-                        }
-                    }
-                ],
-                "KeySchema"            : [
-                    {
-                        "AttributeName" : "UserID",
-                        "KeyType"       : "HASH"
-                    },
-                    {
-                        "AttributeName" : "TimeStamp",
-                        "KeyType"       : "RANGE"
-                    }
-                ],
-                "ProvisionedThroughput" : {
-                    "ReadCapacityUnits" : {
-                        "Ref" : "ReadCapacityUnits"
-                    },
-                    "WriteCapacityUnits" : {
-                        "Ref" : "WriteCapacityUnits"
-                    }
-                },
-                "TableName"             : "MyNotes"
-            }
-        },
-        "MyNotesMetadata" : {
-            "Type" : "AWS::DynamoDB::Table",
-            "Properties" : {
-                "AttributeDefinitions" : [
-                    {
-                        "AttributeName" : {
-                            "Ref" : "HashKey"
-                        },
-                        "AttributeType" : "S"
-                    }
-                ],
-                "KeySchema"            : [
-                    {
-                        "AttributeName" : {
-                            "Ref" : "HashKey"
-                        },
-                        "KeyType"       : "HASH"
-                    }
-                ],
-                "ProvisionedThroughput" : {
-                    "ReadCapacityUnits" : {
-                        "Ref" : "ReadCapacityUnits"
-                    },
-                    "WriteCapacityUnits" : {
-                        "Ref" : "WriteCapacityUnits"
-                    }
-                },
-                "TableName"             : "MyNotesMetadata"
-            }
-        }
-    },
-    "Outputs"                  : {
-    }
+	"AWSTemplateFormatVersion" : "2010-09-09",
+	"Description"              : "This template creates the main tables for the MyNotes app",
+	"Parameters"               : {
+		"UserID" : {
+			"Description" : "HashType PrimaryKey Name",
+			"Type"        : "String",
+			"Default"     : "S",
+			"AllowedPattern" : "S",
+			"MinLength"      : "1",
+			"MaxLength"      : "100",
+			"ConstraintDescription" : "must be a string"
+		},
+		"TimeStamp" : {
+			"Description" : "RangeType SecondaryKey Type",
+			"Type"        : "String",
+			"Default"     : "S",
+			"AllowedPattern" : "S",
+			"MinLength"      : "1",
+			"MaxLength"      : "100",
+			"ConstraintDescription" : "must be a string"
+		},
+		"HashKey"   : {
+			"Description" : "HashType PrimaryKey Name",
+			"Type"        : "String",
+			"AllowedPattern" : "[a-zA-Z0-9]*",
+			"Default"        : "MetadataKey",
+			"MinLength"      : "1",
+			"MaxLength"      : "100",
+			"ConstraintDescription" : "must contain only alphanumberic characters"
+		},
+		"ReadCapacityUnits" : {
+			"Description" : "Provisioned read throughput",
+			"Type"        : "Number",
+			"Default"     : "2",
+			"MinValue"    : "2",
+			"MaxValue"    : "10",
+			"ConstraintDescription" : "must be between 5 and 10000"
+		},
+		"WriteCapacityUnits" : {
+			"Description" : "Provisioned write throughput",
+			"Type"        : "Number",
+			"Default"     : "2",
+			"MinValue"    : "2",
+			"MaxValue"    : "10",
+			"ConstraintDescription" : "must be between 5 and 10000"
+		}
+	},
+	"Resources"                : {
+		"MyNotes" : {
+			"Type" : "AWS::DynamoDB::Table",
+			"Properties" : {
+				"AttributeDefinitions" : [
+					{
+						"AttributeName" : "UserID",
+						"AttributeType" : {
+							"Ref" : "UserID"
+						}
+					},
+					{
+						"AttributeName" : "TimeStamp",
+						"AttributeType" : {
+							"Ref" : "TimeStamp"
+						}
+					}
+				],
+				"KeySchema"            : [
+					{
+						"AttributeName" : "UserID",
+						"KeyType"       : "HASH"
+					},
+					{
+						"AttributeName" : "TimeStamp",
+						"KeyType"       : "RANGE"
+					}
+				],
+				"ProvisionedThroughput" : {
+					"ReadCapacityUnits" : {
+						"Ref" : "ReadCapacityUnits"
+					},
+					"WriteCapacityUnits" : {
+						"Ref" : "WriteCapacityUnits"
+					}
+				},
+				"TableName"             : "MyNotes"
+			}
+		},
+		"MyNotesMetadata" : {
+			"Type" : "AWS::DynamoDB::Table",
+			"Properties" : {
+				"AttributeDefinitions" : [
+					{
+						"AttributeName" : {
+							"Ref" : "HashKey"
+						},
+						"AttributeType" : "S"
+					}
+				],
+				"KeySchema"            : [
+					{
+						"AttributeName" : {
+							"Ref" : "HashKey"
+						},
+						"KeyType"       : "HASH"
+					}
+				],
+				"ProvisionedThroughput" : {
+					"ReadCapacityUnits" : {
+						"Ref" : "ReadCapacityUnits"
+					},
+					"WriteCapacityUnits" : {
+						"Ref" : "WriteCapacityUnits"
+					}
+				},
+				"TableName"             : "MyNotesMetadata"
+			}
+		},
+	"MyNotesUserTokens" : {
+			"Type" : "AWS::DynamoDB::Table",			
+			"Properties" : {
+				"AttributeDefinitions" : [
+					{
+						"AttributeName" : {
+							"Ref" : "HashKey"
+						},
+						"AttributeType" : "S"
+					}
+				],
+				"KeySchema"            : [
+					{
+						"AttributeName" : {
+							"Ref" : "HashKey"
+						},
+						"KeyType"       : "HASH"
+					}
+				],
+				"ProvisionedThroughput" : {
+					"ReadCapacityUnits" : {
+						"Ref" : "ReadCapacityUnits"
+					},
+					"WriteCapacityUnits" : {
+						"Ref" : "WriteCapacityUnits"
+					}
+				},
+				"TableName"             : "MyNotesUserTokens"
+				}
+		}
+	},
+	"Outputs"                  : {
+	}
 }
