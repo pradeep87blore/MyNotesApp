@@ -9,8 +9,13 @@
   <ItemGroup>
     <None Remove="deleteIcon.png" />
     <None Remove="editIcon.png" />
+    <None Remove="LoginWindow.xaml" />
     <None Remove="NotesControl.xaml" />
     <None Remove="updateIcon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TweetSharp" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +32,12 @@
     <Resource Include="updateIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="secrets.keys">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

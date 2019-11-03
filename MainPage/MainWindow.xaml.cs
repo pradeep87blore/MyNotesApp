@@ -33,6 +33,10 @@ namespace MainPage
 
         NotesContent selectedNotes = null;
 
+        LoginWindow loginWindow = null;
+
+        TwitterUserInfo twitterUserInfo = null;
+
         public MainWindow()
         {
             //this.DataContext = this;
@@ -46,6 +50,8 @@ namespace MainPage
 
         private void Window_Initialized(object sender, EventArgs e)
         {
+            PerformLogin();
+
             InitializeUI();
 
             Logic.Initializer.InitializeHelpers(textBox_userId.Text);
@@ -53,6 +59,30 @@ namespace MainPage
             var prevNotes = NotesHandler.FetchNotes(textBox_userId.Text);
 
             LoadPreviousNotes(prevNotes);
+        }
+
+        private void PerformLogin()
+        {
+            // Open this in a modal form so that the background processes are blocked till the user logs in
+            loginWindow = new LoginWindow();
+            var bLoginSuccess = loginWindow.ShowDialog();
+            twitterUserInfo = loginWindow.GetTwitterUserInfo();
+
+            if(twitterUserInfo == null)
+            {
+                var res = MessageBox.Show("Failed to login in to Twitter. Please retry", "Login Failed", MessageBoxButton.OKCancel);
+                if(res == MessageBoxResult.OK)
+                {
+                    PerformLogin();
+                }
+                else
+                {
+                    Application.Current.Shutdown();
+                }
+            }
+            Console.WriteLine("Login with Twitter successful");
+
+            textBox_userId.Text = twitterUserInfo.Screen_name; // Update the UI with the logged in user's Twitter screen name
         }
 
         private void InitializeUI()
