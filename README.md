@@ -25,3 +25,8 @@ Can pin or star notes - TBD
 2. Next, run the project ResourceInitializer. This creates the required S3 tables, etc.
 3. Next, launch the application by running the MainPage project.
 
+# TODO:
+1. Create the Cognito ID pool with CF or at least programatically
+2. Thumbnail creator and displaying the image in the notes post app restart
+3. Display user's Twitter profile image in the app
+
